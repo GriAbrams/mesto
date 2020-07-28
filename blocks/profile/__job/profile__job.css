@@ -1,7 +1,7 @@
 .profile__job {
   grid-area: job;
   width: 100%;
-  max-width: 336px;
+  max-width: 350px;
   margin: 0;
   font-size: 18px;
   line-height: 22px;
@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 800px) {
   .profile__job {
     text-align: center;
   }
@@ -19,7 +19,7 @@
 
 @media screen and (max-width: 425px) {
   .profile__job {
-    max-width: 215px;
+    max-width: 235px;
     font-size: 14px;
     line-height: 17px;
   }
