@@ -1,0 +1,15 @@
+.elements__btn {
+  width: 21px;
+  height: 19px;
+  border: none;
+  padding: 0;
+  background: url(../../../images/elements-btn-img.svg) center no-repeat;
+  cursor: pointer;
+  outline: none;
+  transform: scale(1);
+  transition: transform .3s linear;
+}
+
+.elements__btn:hover {
+  transform: scale(1.2);
+}
