@@ -35,6 +35,6 @@ function formSubmitHandler (evt) {
     name.textContent = nameValue;
     job.textContent = jobValue;
     // Закрытие окна при клипе на кнопку сохранить
-    saveBtn.onclick = closePopup();
+    closePopup();
 }
 formElement.addEventListener('submit', formSubmitHandler);
