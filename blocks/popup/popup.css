@@ -4,9 +4,11 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  display: none;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, .5);
   font-family: 'Inter', 'Arial', sans-serif;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
 }

@@ -1,7 +1,6 @@
-.elements__descr {
+.card__descr {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 28px 15px 28px 21px;
-  
 }

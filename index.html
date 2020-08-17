@@ -25,51 +25,17 @@
       </section>
 
       <section class="elements">
-        <ul class="elements__list">
-          <li class="elements__item">
-            <img src="./images/elements-img_1.jpg" alt="Виды в близи Карачаевска" class="elements__img">
-            <div class="elements__descr">
-              <h2 class="elements__title">Карачаевск</h2>
-              <button class="elements__btn"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements-img_2.jpg" alt="Вид на гору Эльбрус" class="elements__img">
-            <div class="elements__descr">
-              <h2 class="elements__title">Гора Эльбрус</h2>
-              <button class="elements__btn"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements-img_3.jpg" alt="Горный хребет Домбай" class="elements__img">
-            <div class="elements__descr">
-              <h2 class="elements__title">Домбай</h2>
-              <button class="elements__btn"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements-img_2.jpg" alt="Снова вид на гору Эльбрус" class="elements__img">
-            <div class="elements__descr">
-              <h2 class="elements__title">Гора Эльбрус</h2>
-              <button class="elements__btn"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements-img_3.jpg" alt="И снова гора Домбай" class="elements__img">
-            <div class="elements__descr">
-              <h2 class="elements__title">Домбай</h2>
-              <button class="elements__btn"></button>
-            </div>
-          </li>
-          <li class="elements__item">
-            <img src="./images/elements-img_1.jpg" alt="Карачаево-Черкесская республика" class="elements__img">
-            <div class="elements__descr">
-              <h2 class="elements__title">Карачаево-Черкессия</h2>
-              <button class="elements__btn"></button>
-            </div>
-          </li>
-        </ul>
-      </section>  
+        <template id="card-template">
+          <div class="card">
+            <button class="card__btn card__btn_action_delete"></button>
+            <img src="" alt="" class="card__img">
+            <div class="card__descr">
+              <h2 class="card__title"></h2>
+              <button class="card__btn card__btn_action_like"></button>
+            </div> 
+          </div>
+        </template>
+      </section>
     </main>
 
     <footer class="footer">
@@ -77,17 +43,39 @@
     </footer>
   </div>
 
-  <div class="popup">
+  <div class="popup popup_action_edit">
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form action="#" class="popup__form" name="popup__form">
+      <form action="#" class="popup__form popup__form_edit" name="popup__form">
         <fieldset class="popup__wrapper">
-          <input type="text" class="popup__item" id="name" name="name" required>
+          <input type="text" class="popup__item" id="user-name" name="name" required>
           <input type="text" class="popup__item" id="job" name="job" required>
         </fieldset>
-        <button class="popup__save-btn">Сохранить</button>
+        <button class="popup__btn popup__btn_action_save">Сохранить</button>
       </form>
-      <button class="popup__close-btn"></button>
+      <button class="popup__btn popup__btn_action_close"></button>
+    </div>
+  </div>
+
+  <div class="popup popup_action_add">
+    <div class="popup__container">
+      <h2 class="popup__title">Новое место</h2>
+      <form action="#" class="popup__form popup__form_add" name="popup__form">
+        <fieldset class="popup__wrapper">
+          <input type="text" class="popup__item" id="place-name" name="name" required>
+          <input type="text" class="popup__item" id="link" name="job" required>
+        </fieldset>
+        <button class="popup__btn popup__btn_action_save">Сохранить</button>
+      </form>
+      <button class="popup__btn popup__btn_action_close"></button>
+    </div>
+  </div>
+
+  <div class="popup popup_action_opened-img">
+    <div class="popup__container popup__container_opened-img">
+      <img src="" alt="" class="popup__img">
+      <h2 class="popup__title popup__title_opened-img">${name}</h2>
+      <button class="popup__btn popup__btn_action_close"></button>
     </div>
   </div>
 
