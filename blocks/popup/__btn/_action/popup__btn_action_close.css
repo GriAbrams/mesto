@@ -3,7 +3,7 @@
   width: 40px;
   height: 40px;
   position: absolute;
-  top: -38px;
+  top: -37px;
   right: -37px;
   opacity: 1;
   transition: opacity .3s linear;
@@ -11,4 +11,14 @@
 
 .popup__btn_action_close:hover {
   opacity: .6;
+}
+
+@media screen and (max-width: 510px) {
+  .popup__btn_action_close {
+    background: url(../../../../images/popup-close-btn-mobile.svg) center no-repeat;
+    width: 30px;
+    height: 30px;
+    top: -27px;
+    right: -27px;
+  }
 }

@@ -18,3 +18,14 @@
 .popup__item:focus {
   outline: none;
 }
+
+@media screen and (max-width: 510px) {
+  .popup__item {
+    margin-bottom: 12px;
+  }
+
+  .popup__item::placeholder {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
