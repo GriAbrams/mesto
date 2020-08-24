@@ -19,19 +19,19 @@
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__job">Исследователь океана</p>
-          <button class="profile__btn profile__btn_action_edit"></button>
+          <button class="profile__btn profile__btn_action_edit" aria-label="Редактировать профиль"></button>
         </div>
-        <button class="profile__btn profile__btn_action_add"></button>
+        <button class="profile__btn profile__btn_action_add" aria-label="Добавить новую карточку"></button>
       </section>
 
       <section class="elements">
         <template id="card-template">
           <div class="card">
-            <button class="card__btn card__btn_action_delete"></button>
+            <button class="card__btn card__btn_action_delete" aria-label="Удалить карточку"></button>
             <img src="" alt="" class="card__img">
             <div class="card__descr">
               <h2 class="card__title"></h2>
-              <button class="card__btn card__btn_action_like"></button>
+              <button class="card__btn card__btn_action_like" aria-label="Поставить лайк"></button>
             </div> 
           </div>
         </template>
@@ -53,7 +53,7 @@
         </fieldset>
         <button class="popup__btn popup__btn_action_save">Сохранить</button>
       </form>
-      <button class="popup__btn popup__btn_action_close"></button>
+      <button class="popup__btn popup__btn_action_close" aria-label="Закрыть окно"></button>
     </div>
   </div>
 
@@ -62,12 +62,12 @@
       <h2 class="popup__title">Новое место</h2>
       <form action="#" class="popup__form popup__form_add" name="popup__form">
         <fieldset class="popup__wrapper">
-          <input type="text" class="popup__item" id="place-name" name="name" required>
-          <input type="text" class="popup__item" id="link" name="job" required>
+          <input type="text" class="popup__item" id="place-name" name="name" placeholder="Название" required>
+          <input type="text" class="popup__item" id="link" name="job" placeholder="Ссылка на картинку" required>
         </fieldset>
         <button class="popup__btn popup__btn_action_save">Создать</button>
       </form>
-      <button class="popup__btn popup__btn_action_close"></button>
+      <button class="popup__btn popup__btn_action_close" aria-label="Закрыть окно"></button>
     </div>
   </div>
 
@@ -75,7 +75,7 @@
     <div class="popup__container popup__container_opened-img">
       <img src="" alt="" class="popup__img">
       <h2 class="popup__title popup__title_opened-img"></h2>
-      <button class="popup__btn popup__btn_action_close"></button>
+      <button class="popup__btn popup__btn_action_close" aria-label="Закрыть окно"></button>
     </div>
   </div>
 

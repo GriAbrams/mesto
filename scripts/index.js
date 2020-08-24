@@ -19,6 +19,33 @@ const createCard = card => {
   cardElement.querySelector('.card__img').src = card.link;
   cardElement.querySelector('.card__img').alt = card.name;
 
+  // Кпонка удаления карточки
+  const deleteBtn = cardElement.querySelector('.card__btn_action_delete'); // Кнопка удаления
+  deleteBtn.addEventListener('click', evt => {
+    evt.target.closest('.card').remove();
+  });
+
+  // Лайк карточки
+  const likeBtn = cardElement.querySelector('.card__btn_action_like'); // Кнопка лайка
+  likeBtn.addEventListener('click', evt => {
+    evt.target.classList.toggle('card__btn_active')
+  });
+
+  // Открытие просмотра карточки
+  const cardImg = cardElement.querySelector('.card__img'); // Изображение карточки
+
+  cardImg.addEventListener('click', evt => {
+    const card = evt.target.closest('.card');
+    const place = card.querySelector('.card__title');
+    const image = card.querySelector('.card__img');
+  
+    imgPopup.querySelector('.popup__title').textContent = place.textContent;
+    imgPopup.querySelector('.popup__img').src = image.src;
+    imgPopup.querySelector('.popup__img').alt = place.textContent;
+  
+    togglePopup(imgPopup);
+  });
+
   return cardElement;
 } 
 
@@ -36,7 +63,7 @@ const addNewCard = evt => {
   const newCard = {name: placeNameValue, link: linkValue};
 
   cardsContainer.prepend(createCard(newCard));
-  closePopup(addPopup);
+  togglePopup(addPopup);
   addForm.reset()
 }
 addForm.addEventListener('submit', addNewCard);
@@ -47,23 +74,36 @@ const addValueToForm = () => {
   jobInput.setAttribute('value', job.textContent);
 }
 
-// Добавление placeholder в форму добавления карточки
-const addPlaceholderToForm = () => {
-  placeNameInput.setAttribute('placeholder', 'Название');
-  linkInput.setAttribute('placeholder', 'Ссылка на картинку');
+// Открытие/закрытие попапа
+const togglePopup = mod => {
+  mod.classList.toggle('popup_action_opened');
 }
 
-// Открытие попапа
-const openPopup = mod => {
-  mod.classList.add('popup_action_opened');
-}
+// Открытие окна пользователя
+const editBtn = document.querySelector('.profile__btn_action_edit'); // Кнопка редактирования профиля
 
-// Закрытие попапа
-const closePopup = mod => {
-  mod.classList.remove('popup_action_opened');
-}
+editBtn.addEventListener('click', () => {
+  togglePopup(editPopup);
+  addValueToForm();
+});
+  
+// Открытие окна добавления карточки
+const addBtn = document.querySelector('.profile__btn_action_add'); // Кнопка добавления карточки
 
-// Редактирование данных пользвателя
+addBtn.addEventListener('click', () => {
+  togglePopup(addPopup);
+});
+
+// Закрытие при клике на крестик
+const closeBtn = evt => {
+  if (evt.target.classList.contains('popup__btn_action_close')) {
+    const popup = evt.target.closest('.popup');
+    popup.classList.remove('popup_action_opened');
+  }
+}
+document.addEventListener('click', closeBtn);
+
+// Редактирование данных пользователя
 const editUserInfo = evt => {
   evt.preventDefault();
 
@@ -73,47 +113,6 @@ const editUserInfo = evt => {
   userName.textContent = userNameValue;
   job.textContent = jobValue;
 
-  closePopup(editPopup);
+  togglePopup(editPopup);
 }
 editForm.addEventListener('submit', editUserInfo);
-
-// Кнопки
-const buttons = evt => {
-  // Удаление карточки
-  if (evt.target.classList.contains('card__btn_action_delete')) {
-  const card = evt.target.closest('.card');
-  card.remove()
-
-  // Лайк карточки
-  } else if (evt.target.classList.contains('card__btn_action_like')) {
-    evt.target.classList.toggle('card__btn_active');
-
-  // Открытие просмотра карточки
-  } else if (evt.target.classList.contains('card__img')) {
-    const card = evt.target.closest('.card');
-    const place = card.querySelector('.card__title');
-    const image = card.querySelector('.card__img');
-
-    imgPopup.querySelector('.popup__title').textContent = place.textContent;
-    imgPopup.querySelector('.popup__img').src = image.src;
-    imgPopup.querySelector('.popup__img').alt = place.textContent;
-
-    openPopup(imgPopup);
-
-  // Открытие окна пользователя
-  } else if (evt.target.classList.contains('profile__btn_action_edit')) {
-    openPopup(editPopup);
-    addValueToForm();
-
-  // Открытие окна добавления карточки
-  } else if (evt.target.classList.contains('profile__btn_action_add')) {
-    openPopup(addPopup);
-    addPlaceholderToForm();
-
-  // Закрытие попапов
-  } else if (evt.target.classList.contains('popup__btn_action_close')) {
-    const popup = evt.target.closest('.popup');
-    popup.classList.remove('popup_action_opened');
-  }
-}
-document.addEventListener('click', buttons);
