@@ -1,49 +1,73 @@
 const cardsContainer = document.querySelector('.elements'); // Контейнер карточек
-const addForm = document.querySelector('.popup__form_add'); // Форма добавления
-const editForm = document.querySelector('.popup__form_edit'); // Форма редактирования профиля
-const imgPopup = document.querySelector('.popup_action_opened-img'); // Попап большой карточки
+
 const editPopup = document.querySelector('.popup_action_edit'); // Попап редактивания
-const addPopup = document.querySelector('.popup_action_add'); // Попап добавления
+const addPopup = document.querySelector('.popup_action_add'); // Попап добавления карточки
+const imgPopup = document.querySelector('.popup_action_opened-img'); // Попап открытой карточки
+
 const userName = document.querySelector('.profile__name'); // Имя пользователя
 const job = document.querySelector('.profile__job'); // Профессия
+
+const editForm = document.querySelector('.popup__form_edit'); // Форма редактирования профиля
+const addForm = document.querySelector('.popup__form_add'); // Форма добавления
+
 const userNameInput = document.querySelector('#user-name'); // Поле ввода имени пользователя
 const jobInput = document.querySelector('#job'); // Поле ввода профессии
 const placeNameInput = document.querySelector('#place-name'); // Поле ввода названия карточки
 const linkInput = document.querySelector('#link'); // Поле ссылки на картинку
 
+const editBtn = document.querySelector('.profile__btn_action_edit'); // Кнопка редактирования профиля
+const addBtn = document.querySelector('.profile__btn_action_add'); // Кнопка добавления карточки
+const closeBtn = document.querySelectorAll('.popup__btn_action_close'); // Крестик
+
+// Открытие попапа
+const openPopup = mod => {
+  mod.classList.add('popup_action_opened');
+}
+
+// Закрытие попапа
+const closePopup = mod => {
+  mod.classList.remove('popup_action_opened');
+}
+
 // Создание карточки
 const createCard = card => {
   const cardElement = document.querySelector('#card-template').content.cloneNode(true);
+  const cardTitle = cardElement.querySelector('.card__title');
+  const cardImage = cardElement.querySelector('.card__img');
 
-  cardElement.querySelector('.card__title').textContent = card.name;
-  cardElement.querySelector('.card__img').src = card.link;
-  cardElement.querySelector('.card__img').alt = card.name;
+  cardTitle.textContent = card.name;
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
 
-  // Кпонка удаления карточки
-  const deleteBtn = cardElement.querySelector('.card__btn_action_delete'); // Кнопка удаления
+  // Кнопка удаления карточки
+  const deleteBtn = cardElement.querySelector('.card__btn_action_delete');
+
   deleteBtn.addEventListener('click', evt => {
     evt.target.closest('.card').remove();
   });
 
   // Лайк карточки
-  const likeBtn = cardElement.querySelector('.card__btn_action_like'); // Кнопка лайка
+  const likeBtn = cardElement.querySelector('.card__btn_action_like');
+
   likeBtn.addEventListener('click', evt => {
-    evt.target.classList.toggle('card__btn_active')
+    evt.target.classList.toggle('card__btn_active');
   });
 
   // Открытие просмотра карточки
-  const cardImg = cardElement.querySelector('.card__img'); // Изображение карточки
+  const cardImg = cardElement.querySelector('.card__img');
 
   cardImg.addEventListener('click', evt => {
     const card = evt.target.closest('.card');
     const place = card.querySelector('.card__title');
     const image = card.querySelector('.card__img');
+    const popupTitle = imgPopup.querySelector('.popup__title');
+    const popupImage = imgPopup.querySelector('.popup__img');
+
+    popupTitle.textContent = place.textContent;
+    popupImage.src = image.src;
+    popupImage.alt = place.textContent;
   
-    imgPopup.querySelector('.popup__title').textContent = place.textContent;
-    imgPopup.querySelector('.popup__img').src = image.src;
-    imgPopup.querySelector('.popup__img').alt = place.textContent;
-  
-    togglePopup(imgPopup);
+    openPopup(imgPopup);
   });
 
   return cardElement;
@@ -54,7 +78,11 @@ initialCards.forEach(card => {
   cardsContainer.append(createCard(card));
 });
 
-// Добавление новой карточки 
+// Открытие/добавление окна карточки
+addBtn.addEventListener('click', () => {
+  openPopup(addPopup);
+});
+
 const addNewCard = evt => {
   evt.preventDefault();
 
@@ -63,47 +91,19 @@ const addNewCard = evt => {
   const newCard = {name: placeNameValue, link: linkValue};
 
   cardsContainer.prepend(createCard(newCard));
-  togglePopup(addPopup);
+  closePopup(addPopup);
   addForm.reset()
 }
 addForm.addEventListener('submit', addNewCard);
 
-// Добавление value в форму редактирования
-const addValueToForm = () => {
+// Открытие/редактирование окна профиля
+editBtn.addEventListener('click', () => {
   userNameInput.setAttribute('value', userName.textContent);
   jobInput.setAttribute('value', job.textContent);
-}
 
-// Открытие/закрытие попапа
-const togglePopup = mod => {
-  mod.classList.toggle('popup_action_opened');
-}
-
-// Открытие окна пользователя
-const editBtn = document.querySelector('.profile__btn_action_edit'); // Кнопка редактирования профиля
-
-editBtn.addEventListener('click', () => {
-  togglePopup(editPopup);
-  addValueToForm();
-});
-  
-// Открытие окна добавления карточки
-const addBtn = document.querySelector('.profile__btn_action_add'); // Кнопка добавления карточки
-
-addBtn.addEventListener('click', () => {
-  togglePopup(addPopup);
+  openPopup(editPopup);
 });
 
-// Закрытие при клике на крестик
-const closeBtn = evt => {
-  if (evt.target.classList.contains('popup__btn_action_close')) {
-    const popup = evt.target.closest('.popup');
-    popup.classList.remove('popup_action_opened');
-  }
-}
-document.addEventListener('click', closeBtn);
-
-// Редактирование данных пользователя
 const editUserInfo = evt => {
   evt.preventDefault();
 
@@ -113,6 +113,13 @@ const editUserInfo = evt => {
   userName.textContent = userNameValue;
   job.textContent = jobValue;
 
-  togglePopup(editPopup);
+  closePopup(editPopup);
 }
 editForm.addEventListener('submit', editUserInfo);
+
+// Закрытие по клике на крестик
+closeBtn.forEach(button => {
+  button.addEventListener('click', evt => {
+    closePopup(evt.target.closest('.popup'))
+  });
+});
