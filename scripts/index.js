@@ -1,36 +1,37 @@
-const cardsContainer = document.querySelector('.elements'); // Контейнер карточек
-
-const editPopup = document.querySelector('.popup_action_edit'); // Попап редактивания
-const addPopup = document.querySelector('.popup_action_add'); // Попап добавления карточки
-const imgPopup = document.querySelector('.popup_action_opened-img'); // Попап открытой карточки
-
-const userName = document.querySelector('.profile__name'); // Имя пользователя
-const job = document.querySelector('.profile__job'); // Профессия
-
-const editForm = document.querySelector('.popup__form_edit'); // Форма редактирования профиля
-const addForm = document.querySelector('.popup__form_add'); // Форма добавления
-
-const userNameInput = document.querySelector('#user-name'); // Поле ввода имени пользователя
-const jobInput = document.querySelector('#job'); // Поле ввода профессии
-const placeNameInput = document.querySelector('#place-name'); // Поле ввода названия карточки
-const linkInput = document.querySelector('#link'); // Поле ссылки на картинку
-
-const editBtn = document.querySelector('.profile__btn_action_edit'); // Кнопка редактирования профиля
-const addBtn = document.querySelector('.profile__btn_action_add'); // Кнопка добавления карточки
-const closeBtn = document.querySelectorAll('.popup__btn_action_close'); // Крестик
+// Контейнер карточек
+const cardsContainer = document.querySelector('.elements');
+// Попапы
+const editPopup = document.querySelector('.popup_action_edit');
+const addPopup = document.querySelector('.popup_action_add');
+const imgPopup = document.querySelector('.popup_action_opened-img');
+// Данные пользователя
+const userName = document.querySelector('.profile__name');
+const job = document.querySelector('.profile__job'); 
+// Формы попапов
+const editForm = document.querySelector('.popup__form_edit');
+const addForm = document.querySelector('.popup__form_add');
+// Поля ввода
+const userNameInput = document.querySelector('#user-name');
+const jobInput = document.querySelector('#job');
+const placeNameInput = document.querySelector('#place-name');
+const linkInput = document.querySelector('#link');
+// Кнопки
+const editBtn = document.querySelector('.profile__btn_action_edit');
+const addBtn = document.querySelector('.profile__btn_action_add');
+const closeBtn = document.querySelectorAll('.popup__btn_action_close'); 
 
 // Открытие попапа
-const openPopup = mod => {
+const openPopup = (mod) => {
   mod.classList.add('popup_action_opened');
 }
 
 // Закрытие попапа
-const closePopup = mod => {
+const closePopup = (mod) => {
   mod.classList.remove('popup_action_opened');
 }
 
 // Создание карточки
-const createCard = card => {
+const createCard = (card) => {
   const cardElement = document.querySelector('#card-template').content.cloneNode(true);
   const cardTitle = cardElement.querySelector('.card__title');
   const cardImage = cardElement.querySelector('.card__img');
@@ -42,21 +43,21 @@ const createCard = card => {
   // Кнопка удаления карточки
   const deleteBtn = cardElement.querySelector('.card__btn_action_delete');
 
-  deleteBtn.addEventListener('click', evt => {
+  deleteBtn.addEventListener('click', (evt) => {
     evt.target.closest('.card').remove();
   });
 
   // Лайк карточки
   const likeBtn = cardElement.querySelector('.card__btn_action_like');
 
-  likeBtn.addEventListener('click', evt => {
+  likeBtn.addEventListener('click', (evt) => {
     evt.target.classList.toggle('card__btn_active');
   });
 
   // Открытие просмотра карточки
   const cardImg = cardElement.querySelector('.card__img');
 
-  cardImg.addEventListener('click', evt => {
+  cardImg.addEventListener('click', (evt) => {
     const card = evt.target.closest('.card');
     const place = card.querySelector('.card__title');
     const image = card.querySelector('.card__img');
@@ -74,7 +75,7 @@ const createCard = card => {
 } 
 
 // Отрисовка карточек
-initialCards.forEach(card => {
+initialCards.forEach( (card) => {
   cardsContainer.append(createCard(card));
 });
 
@@ -83,7 +84,7 @@ addBtn.addEventListener('click', () => {
   openPopup(addPopup);
 });
 
-const addNewCard = evt => {
+const addNewCard = (evt) => {
   evt.preventDefault();
 
   const placeNameValue = placeNameInput.value;
@@ -104,7 +105,7 @@ editBtn.addEventListener('click', () => {
   openPopup(editPopup);
 });
 
-const editUserInfo = evt => {
+const editUserInfo = (evt) => {
   evt.preventDefault();
 
   const userNameValue = userNameInput.value;
@@ -118,8 +119,26 @@ const editUserInfo = evt => {
 editForm.addEventListener('submit', editUserInfo);
 
 // Закрытие по клике на крестик
-closeBtn.forEach(button => {
-  button.addEventListener('click', evt => {
+closeBtn.forEach((button) => {
+  button.addEventListener('click', (evt) => {
     closePopup(evt.target.closest('.popup'))
   });
 });
+
+// Закрытие попапов по клавише Esc
+const closePopupByEscape = (evt) => {
+  const openedPopup = document.querySelector('.popup_action_opened');
+
+  if (evt.key === 'Escape') {
+    openedPopup.classList.remove('popup_action_opened');
+  }
+}
+document.addEventListener('keydown', closePopupByEscape);
+
+// Закрытие попапов при клике на оверлей
+const clickOverlayClose = (evt) => {
+  if (evt.target.classList.contains("popup_action_opened")) { 
+    closePopup(evt.target); 
+  } 
+}
+document.addEventListener('click', clickOverlayClose);
