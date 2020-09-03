@@ -18,7 +18,7 @@ const linkInput = document.querySelector('#link');
 // Кнопки
 const editBtn = document.querySelector('.profile__btn_action_edit');
 const addBtn = document.querySelector('.profile__btn_action_add');
-const closeBtn = document.querySelectorAll('.popup__btn_action_close'); 
+const closeBtn = document.querySelectorAll('.popup__btn_action_close');
 
 // Открытие попапа
 const openPopup = (mod) => {
@@ -90,17 +90,21 @@ const addNewCard = (evt) => {
   const placeNameValue = placeNameInput.value;
   const linkValue = linkInput.value;
   const newCard = {name: placeNameValue, link: linkValue};
+  const submitBtn = evt.target.querySelector('.popup__btn_action_save');
 
   cardsContainer.prepend(createCard(newCard));
+
+  addForm.reset();
+  submitBtn.setAttribute('disabled', false);
+  submitBtn.classList.add(popupElements.inactiveButtonClass);
   closePopup(addPopup);
-  addForm.reset()
 }
 addForm.addEventListener('submit', addNewCard);
 
 // Открытие/редактирование окна профиля
 editBtn.addEventListener('click', () => {
-  userNameInput.setAttribute('value', userName.textContent);
-  jobInput.setAttribute('value', job.textContent);
+  userNameInput.value = userName.textContent;
+  jobInput.value = job.textContent;
 
   openPopup(editPopup);
 });
@@ -130,7 +134,7 @@ const closePopupByEscape = (evt) => {
   const openedPopup = document.querySelector('.popup_action_opened');
 
   if (evt.key === 'Escape') {
-    openedPopup.classList.remove('popup_action_opened');
+    closePopup(openedPopup);
   }
 }
 document.addEventListener('keydown', closePopupByEscape);
