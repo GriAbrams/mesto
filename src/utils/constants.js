@@ -33,12 +33,3 @@ export const popupElements = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_visible'
 }
-
-export const profilePopup = document.querySelector('.popup_action_edit');
-export const newCardPopup = document.querySelector('.popup_action_add');
-
-export const userNameInput = document.querySelector('#user-name');
-export const jobInput = document.querySelector('#job');
-
-export const editBtn = document.querySelector('.profile__btn_action_edit');
-export const addBtn = document.querySelector('.profile__btn_action_add');

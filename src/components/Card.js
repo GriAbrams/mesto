@@ -18,6 +18,7 @@ export default class Card {
 
   _cardDeleteBtn() {
     this._element.remove();
+    this._element = null;
   }
 
   _cardLikeBtn() {
