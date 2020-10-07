@@ -9,7 +9,7 @@ export default class FormValidator {
     this._formElement = formElement;
   }
 
-  _showInputError = (input, errorMessage) => {
+  _showInputError(input, errorMessage) {
     this._error = this._formElement.querySelector(`#${input.id}-error`);
 
     input.classList.add(this._inputErrorClass);
@@ -17,7 +17,7 @@ export default class FormValidator {
     this._error.classList.add(this._errorClass);
   }
 
-  _hideInputError = (input) => {
+  _hideInputError(input) {
     this._error = this._formElement.querySelector(`#${input.id}-error`);
 
     input.classList.remove(this._inputErrorClass);
@@ -25,7 +25,7 @@ export default class FormValidator {
     this._error.classList.remove(this._errorClass);
   }
 
-  _isValid = (input) => {
+  _isValid(input) {
     if (!input.validity.valid) {
       this._showInputError(input, input.validationMessage);
     } else {
@@ -33,13 +33,13 @@ export default class FormValidator {
     }
   }
 
-  _hasInvalidInput = () => {
-    return this._inputList.some( (input) => {
+  _hasInvalidInput() {
+    return this._inputList.some((input) => {
       return !input.validity.valid;
     });
   }
 
-  _toggleButtonState = () => {
+  _toggleButtonState() {
     this._button = this._formElement.querySelector(this._submitButtonSelector);
 
     if (this._hasInvalidInput()) {
@@ -51,12 +51,12 @@ export default class FormValidator {
     }
   }
 
-  _setEventListeners = () => {
+  _setEventListeners() {
     this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
 
     this._toggleButtonState();
 
-    this._inputList.forEach( (input) => {
+    this._inputList.forEach((input) => {
       input.addEventListener('input', () => {
         this._isValid(input);
         this._toggleButtonState();
@@ -64,10 +64,10 @@ export default class FormValidator {
     });
   }
 
-  enableValidation = () => {
+  enableValidation() {
     this._formList = Array.from(this._formElement.querySelectorAll(this._formSelector));
   
-    this._formList.forEach( (form) => {
+    this._formList.forEach((form) => {
       this._setEventListeners(form);
     });
   }

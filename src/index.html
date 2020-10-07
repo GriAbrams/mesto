@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto</title>
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body class="body">
   <div class="page">
@@ -28,7 +27,7 @@
         <template id="card-template">
           <div class="card">
             <button class="card__btn card__btn_action_delete" aria-label="Удалить карточку"></button>
-            <img src="" alt="" class="card__img">
+            <img src="#" alt="" class="card__img">
             <div class="card__descr">
               <h2 class="card__title"></h2>
               <button class="card__btn card__btn_action_like" aria-label="Поставить лайк"></button>
@@ -70,7 +69,7 @@
           <span class="popup__input-error" id="place-name-error"></span>
         </label>
         <label class="popup__label">
-          <input type="url" class="popup__input" id="link" name="job" placeholder="Ссылка на картинку" required>
+          <input type="url" class="popup__input" id="link" name="link" placeholder="Ссылка на картинку" required>
           <span class="popup__input-error" id="link-error"></span>
         </label>
         <button class="popup__btn popup__btn_action_save">Создать</button>
@@ -81,12 +80,10 @@
 
   <div class="popup popup_action_opened-img">
     <div class="popup__container popup__container_opened-img">
-      <img src="" alt="" class="popup__img">
+      <img src="#" alt="" class="popup__img">
       <h2 class="popup__title popup__title_opened-img"></h2>
       <button class="popup__btn popup__btn_action_close" aria-label="Закрыть окно"></button>
     </div>
   </div>
-
-  <script src="./scripts/index.js" type="module"></script>
 </body>
 </html>
