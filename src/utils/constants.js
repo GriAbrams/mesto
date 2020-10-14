@@ -1,3 +1,5 @@
+export const myId = '6af7666cee60e91a6f0c5270';
+
 export const initialCards = [
   {
     name: 'Архыз',

@@ -1,17 +1,5 @@
 .popup__form {
   display: flex;
   flex-direction: column;
-  width: calc(430px - 72px);
-}
-
-@media screen and (max-width: 510px) {
-  .popup__form {
-    width: calc(280px - 40px);
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .popup__form {
-    width: calc(240px - 40px);
-  }
+  width: 100%;
 }

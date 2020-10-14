@@ -11,23 +11,19 @@ export default class Popup {
   }
 
   _handleOverlayClick(evt) {
-    if (evt.target.classList.contains("popup_action_opened")) { 
+    if (evt.target.classList.contains('popup_action_opened')) { 
       this.close(); 
     } 
   }
 
   open() {
     this._popupSelector.classList.add('popup_action_opened');
-    document.addEventListener('keydown', (evt) => {
-      this._handleEscClose(evt);
-    });
+    document.addEventListener('keydown', this._handleEscClose.bind(this));
   }
   
   close() {
     this._popupSelector.classList.remove('popup_action_opened');
-    document.removeEventListener('keydown', (evt) => {
-      this._handleEscClose(evt);
-    });
+    document.removeEventListener('keydown', this._handleEscClose.bind(this));
   }
 
   setEventListeners() {
