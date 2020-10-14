@@ -1,7 +1,7 @@
 // Импорт модулей
 import './index.css';
 
-import {myId, popupElements} from '../utils/constants.js';
+import {popupElements} from '../utils/constants.js';
 import Api from '../components/Api.js';
 import FormValidator from '../components/FormValidator.js';
 import Card from '../components/Card.js';
@@ -10,6 +10,8 @@ import UserInfo from '../components/UserInfo.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithSubmit from '../components/PopupWithSubmit.js'
+
+let myId = '';
 
 const profilePopup = document.querySelector('.popup_action_edit');
 const newCardPopup = document.querySelector('.popup_action_add');
@@ -41,14 +43,26 @@ const api = new Api({
   }
 });
 
-// Функция отображения загрузки
-const renderLoading = (popup, buttonText) => {
-  popup.querySelector('.popup__btn_action_save').textContent = buttonText;
-}
+// Экземпляр класса UserInfo
+const userInfo = new UserInfo('.profile__name', '.profile__job', '.profile__avatar');
 
 // Экземпляр класс PopupWithImage для открытия просмотра карточки
 const imgPopup = new PopupWithImage('.popup_action_opened-img');
 imgPopup.setEventListeners();
+
+// Экземпляр класса Popup для окна подтверждения удаления
+const confirmPopup = new PopupWithSubmit('.popup_action_confirm', {
+  handleSubmit: (cardId, card) => {
+    api.deleteCard(cardId)
+      .then(() => {
+        card.deleteCard();
+      }).catch((err) => console.log(err))
+      .finally(() => {
+        confirmPopup.close();
+      });
+  }
+});
+confirmPopup.setEventListeners();
 
 // Функция создания карточки
 const createCard = (item) => {
@@ -69,104 +83,93 @@ const createCard = (item) => {
           }).catch((err) => console.log(err));
         }
     },
-    handleDeleteIconClick: (cardId, elem) => {
-      confirmPopup.open(cardId, elem);
+    handleDeleteIconClick: (cardId, card) => {
+      confirmPopup.open(cardId, card);
     }
   });
-  const cardElement = place.generateCard();
-  return cardElement;
+  return place.generateCard();
 }
 
 // Экземпляр класса Section для отрисовки карточек
 const cardList = new Section({
   renderer: (item) => {
-    cardList.addItem(createCard(item), true);
+    cardList.addItemAppend(createCard(item));
   }
 }, '.elements');
 
-// Загрузка карточек с сервера
-api.getInitialCards()
-  .then((items) => {
-    cardList.renderItems(items);
+// Загрузка первоначального состояния страницы
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    userInfo.setUserInfo(userData);
+    myId = userData._id;
+    cardList.renderItems(cards);
   }).catch((err) => console.log(err));
 
 // Экземпляр класс PopupWithForm для добавления новой карточки
 const addPopup = new PopupWithForm('.popup_action_add', {
   formSubmit: (inputValues) => {
-    renderLoading(newCardPopup, 'Создание...');
+    addPopup.startLoading();
     api.addNewCard(inputValues)
       .then((data) => {
-        cardList.addItem(createCard(data), false);
+        cardList.addItemPrepend(createCard(data));
       })
       .catch((err) => console.log(err))
-      .finally(renderLoading(newCardPopup, 'Создать'));
+      .finally(() => {
+        addPopup.finishLoading();
+        addPopup.close();
+      });
   }
 });
 addPopup.setEventListeners();
 // Открытие окна добавления карточки
 addBtn.addEventListener('click', () => {
-  addPopup.open();
   addFormValidation.toggleButtonState();
+  addPopup.open();
 });
-
-// Экземпляр класса Popup для окна подтверждения удаления
-const confirmPopup = new PopupWithSubmit('.popup_action_confirm', {
-  handleSubmit: (cardId, elem) => {
-    api.deleteCard(cardId)
-      .then(() => {
-        elem.remove();
-        elem = null;
-      }).catch((err) => console.log(err));
-  }
-});
-confirmPopup.setEventListeners();
-
-// Экземпляр класса UserInfo
-const userInfo = new UserInfo('.profile__name', '.profile__job', '.profile__avatar');
-
-// Загрузка информации о пользователе с сервера 
-api.getUserInfo()
-  .then((data) => {
-    userInfo.setUserInfo(data);
-  }).catch((err) => console.log(err));
 
 // Экземпляр класса PopupWithForm для окна редактирования информации о пользователе
 const editPopup = new PopupWithForm('.popup_action_edit', {
   formSubmit: (inputValues) => {
-    renderLoading(profilePopup, 'Сохранение...');
+    editPopup.startLoading();
     api.editUserInfo(inputValues)
       .then((data) => {
         userInfo.setUserInfo(data);
       })
       .catch((err) => console.log(err))
-      .finally(renderLoading(profilePopup, 'Сохранить'));
+      .finally(() => {
+        editPopup.finishLoading();
+        editPopup.close();
+      });
   }
 });
 editPopup.setEventListeners();
 // Открытие окна редактирования профиля
 editBtn.addEventListener('click', () => {
-  editPopup.open();
   const user = userInfo.getUserInfo();
   userNameInput.value = user.name;
   aboutInput.value = user.about;
   editFormValidation.toggleButtonState();
+  editPopup.open();
 });
 
 // Экземпляр класс PopupWithForm для окна редактирования аватара
 const avatarPopup = new PopupWithForm('.popup_action_avatar', {
   formSubmit: (userLink) => {
-    renderLoading(avatarEditPopup, 'Сохранение...');
+    avatarPopup.startLoading();
     api.editUserAvatar(userLink)
       .then((data) => {
         userInfo.setUserAvatar(data);
       })
       .catch((err) => console.log(err))
-      .finally(renderLoading(avatarEditPopup, 'Сохранить'));
+      .finally(() => {
+        avatarPopup.finishLoading();
+        avatarPopup.close();
+      });
   }
 });
 avatarPopup.setEventListeners();
 // Открытие окна редактирования аватара
 avatarBtn.addEventListener('click', () => {
-  avatarPopup.open();
   avatarFormValidation.toggleButtonState();
+  avatarPopup.open();
 });
