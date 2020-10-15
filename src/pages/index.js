@@ -56,10 +56,8 @@ const confirmPopup = new PopupWithSubmit('.popup_action_confirm', {
     api.deleteCard(cardId)
       .then(() => {
         card.deleteCard();
-      }).catch((err) => console.log(err))
-      .finally(() => {
         confirmPopup.close();
-      });
+      }).catch((err) => console.log(err));
   }
 });
 confirmPopup.setEventListeners();
@@ -93,7 +91,7 @@ const createCard = (item) => {
 // Экземпляр класса Section для отрисовки карточек
 const cardList = new Section({
   renderer: (item) => {
-    cardList.addItemAppend(createCard(item));
+    cardList.addItem(createCard(item));
   }
 }, '.elements');
 
@@ -108,15 +106,15 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
 // Экземпляр класс PopupWithForm для добавления новой карточки
 const addPopup = new PopupWithForm('.popup_action_add', {
   formSubmit: (inputValues) => {
-    addPopup.startLoading();
+    addPopup.startLoading('Создание...');
     api.addNewCard(inputValues)
       .then((data) => {
-        cardList.addItemPrepend(createCard(data));
+        cardList.addNewItem(createCard(data));
+        addPopup.close();
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        addPopup.finishLoading();
-        addPopup.close();
+        addPopup.finishLoading('Создать');
       });
   }
 });
@@ -130,15 +128,15 @@ addBtn.addEventListener('click', () => {
 // Экземпляр класса PopupWithForm для окна редактирования информации о пользователе
 const editPopup = new PopupWithForm('.popup_action_edit', {
   formSubmit: (inputValues) => {
-    editPopup.startLoading();
+    editPopup.startLoading('Сохранение...');
     api.editUserInfo(inputValues)
       .then((data) => {
         userInfo.setUserInfo(data);
+        editPopup.close();
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        editPopup.finishLoading();
-        editPopup.close();
+        editPopup.finishLoading('Сохранить');
       });
   }
 });
@@ -155,15 +153,15 @@ editBtn.addEventListener('click', () => {
 // Экземпляр класс PopupWithForm для окна редактирования аватара
 const avatarPopup = new PopupWithForm('.popup_action_avatar', {
   formSubmit: (userLink) => {
-    avatarPopup.startLoading();
+    avatarPopup.startLoading('Сохранение...');
     api.editUserAvatar(userLink)
       .then((data) => {
         userInfo.setUserAvatar(data);
+        avatarPopup.close();
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        avatarPopup.finishLoading();
-        avatarPopup.close();
+        avatarPopup.finishLoading('Сохранить');
       });
   }
 });

@@ -1,5 +1,4 @@
 export const popupElements = {
-  formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__btn_action_save',
   inactiveButtonClass: 'popup__btn_type_disabled',

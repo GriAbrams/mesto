@@ -1,6 +1,5 @@
 export default class FormValidator {
   constructor (popupElements, formElement) {
-    this._formSelector = popupElements.formSelector;
     this._inputSelector = popupElements.inputSelector;
     this._submitButtonSelector = popupElements.submitButtonSelector;
     this._inactiveButtonClass = popupElements.inactiveButtonClass;
@@ -46,7 +45,7 @@ export default class FormValidator {
       this._button.setAttribute('disabled', true);
     } else {
       this._button.classList.remove(this._inactiveButtonClass);
-      this._button.removeAttribute('disabled', false);
+      this._button.removeAttribute('disabled');
     }
   }
 
